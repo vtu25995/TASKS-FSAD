@@ -1,0 +1,63 @@
+// Task10_StudentCRUDApplication.java
+import org.springframework.boot.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.*;
+import java.util.*;
+
+@SpringBootApplication
+@RestController
+public class Task10_StudentCRUDApplication {
+
+    private static Map<Integer, Student> database = new HashMap<>();
+
+    public static void main(String[] args) {
+        SpringApplication.run(Task10_StudentCRUDApplication.class, args);
+    }
+
+    @PostMapping("/students")
+    public Student createStudent(@RequestBody Student student) {
+        database.put(student.getId(), student);
+        return student;
+    }
+
+    @GetMapping("/students")
+    public Collection<Student> getStudents() {
+        return database.values();
+    }
+
+    @PutMapping("/students/{id}")
+    public Student updateStudent(@PathVariable int id, @RequestBody Student student) {
+        database.put(id, student);
+        return student;
+    }
+
+    @DeleteMapping("/students/{id}")
+    public String deleteStudent(@PathVariable int id) {
+        database.remove(id);
+        return "Student deleted";
+    }
+}
+
+@Entity
+@Table(name = "students")
+class Student {
+
+    @Id
+    private int id;
+
+    @Column(name = "student_name")
+    private String name;
+
+    @Column(name = "department")
+    private String department;
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+}

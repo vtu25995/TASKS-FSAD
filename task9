@@ -1,0 +1,23 @@
+// Task9_SpringMVCApp.java
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.context.annotation.*;
+
+@Controller
+class EmployeeController {
+
+    @GetMapping("/employee")
+    public String getEmployee(Model model) {
+        model.addAttribute("name", "Vijay");
+        model.addAttribute("role", "Software Developer");
+        return "employeeView"; 
+    }
+}
+
+@Configuration
+@EnableWebMvc
+@ComponentScan
+class WebConfig {
+}
